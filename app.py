@@ -50,13 +50,14 @@ def initialize_system():
     # Load PyTorch model
     try:
         logger.info("Initializing PyTorch model...")
-        pytorch_model = SDGModelLoader("models/sdg_model.pt")
+        # ⚠️ UBAH PATH INI - gunakan best_model.pt bukan sdg_model.pt
+        pytorch_model = SDGModelLoader("models/best_model.pt")
         MODEL_LOADED = pytorch_model.load_model()
         
         if MODEL_LOADED:
             logger.info("✓ PyTorch model loaded successfully!")
         else:
-            logger.warning("✗ PyTorch model failed to load")
+            logger.warning("✗ PyTorch model failed to load - using fallback mode")
     except Exception as e:
         logger.error(f"Error loading PyTorch model: {str(e)}")
         MODEL_LOADED = False
@@ -129,7 +130,7 @@ def analyze_model():
     try:
         if not MODEL_LOADED:
             return jsonify({
-                "error": "Model not loaded. Please check server logs.",
+                "error": "Model not loaded. Using keyword fallback mode.",
                 "success": False
             }), 503
         
@@ -161,7 +162,7 @@ def analyze_model():
             "text_preview": text[:200] + "..." if len(text) > 200 else text,
             "char_count": len(text),
             "predictions": predictions,
-            "model_used": "pytorch_model",
+            "model_used": "pytorch_model" if MODEL_LOADED else "keyword_fallback",
             "model_name": "PyTorch SDG Classifier",
             "model_loaded": MODEL_LOADED
         })
@@ -349,7 +350,7 @@ if __name__ == '__main__':
     print("SDGs DOCUMENT CLASSIFICATION SYSTEM - v2.0")
     print("="*60)
     print(f"Server running on: http://localhost:{port}")
-    print(f"PyTorch Model: {'✓ LOADED' if MODEL_LOADED else '✗ NOT LOADED'}")
+    print(f"PyTorch Model: {'✓ LOADED' if MODEL_LOADED else '✗ NOT LOADED (using fallback)'}")
     print(f"Rule Engine: {'✓ LOADED' if RULES_LOADED else '✗ NOT LOADED'}")
     print(f"Debug mode: {debug}")
     print("="*60)
