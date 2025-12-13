@@ -50,7 +50,6 @@ def initialize_system():
     # Load PyTorch model
     try:
         logger.info("Initializing PyTorch model...")
-        # ⚠️ UBAH PATH INI - gunakan best_model.pt bukan sdg_model.pt
         pytorch_model = SDGModelLoader("models/best_model.pt")
         MODEL_LOADED = pytorch_model.load_model()
         
@@ -129,10 +128,7 @@ def analyze_model():
     """API untuk analisis dengan PyTorch model"""
     try:
         if not MODEL_LOADED:
-            return jsonify({
-                "error": "Model not loaded. Using keyword fallback mode.",
-                "success": False
-            }), 503
+            logger.warning("Model not loaded, will use fallback mode")
         
         data = request.get_json()
         if not data:
@@ -191,8 +187,8 @@ def analyze_rule():
             return jsonify({"error": "Teks kosong"}), 400
         
         # Configuration dari request (optional)
-        match_field = data.get('match_field', 'all')  # "TITLE_ABS", "AUTHKEY", "all"
-        min_matches = data.get('min_matches', 2)  # Minimum 2 matches
+        match_field = data.get('match_field', 'all')
+        min_matches = data.get('min_matches', 2)
         
         # Analyze dengan rule engine
         matched_sdgs = rule_engine.analyze(
@@ -208,7 +204,7 @@ def analyze_rule():
             "success": True,
             "text_preview": text[:200] + "..." if len(text) > 200 else text,
             "total_matches": total_matches,
-            "matched_sdgs": matched_sdgs[:10],  # Top 10
+            "matched_sdgs": matched_sdgs[:10],
             "model_used": "rule_based",
             "rules_loaded": RULES_LOADED,
             "match_field": match_field
@@ -220,7 +216,11 @@ def analyze_rule():
 
 @app.route('/api/upload/document', methods=['POST'])
 def upload_document():
-    """API untuk upload dan ekstraksi dokumen"""
+    """
+    API untuk upload dan ekstraksi dokumen dengan struktur
+    
+    Returns structured data: title, abstract, keywords, full_text
+    """
     if 'file' not in request.files:
         return jsonify({"error": "Tidak ada file"}), 400
     
@@ -236,24 +236,52 @@ def upload_document():
         if len(file_bytes) > app.config['MAX_CONTENT_LENGTH']:
             return jsonify({"error": "File terlalu besar (max 16MB)"}), 413
         
-        # Ekstraksi teks
+        # Ekstraksi dengan struktur
         extractor = DocumentExtractor()
-        text, file_type, success = extractor.extract_from_bytes(file_bytes, filename)
+        structured, file_type, success = extractor.extract_structured(file_bytes, filename)
         
         if not success:
-            return jsonify({"error": text}), 400
+            # Fallback ke ekstraksi biasa
+            text, file_type, success = extractor.extract_from_bytes(file_bytes, filename)
+            if not success:
+                return jsonify({"error": text}), 400
+            
+            # Return simple structure
+            structured = {
+                "title": "Untitled Document",
+                "abstract": text[:500] if len(text) > 500 else text,
+                "keywords": [],
+                "full_text": text,
+                "authors": [],
+                "year": ""
+            }
         
-        if not text.strip():
+        if not structured["full_text"].strip():
             return jsonify({"error": "Teks kosong setelah ekstraksi"}), 400
         
-        return jsonify({
+        # Prepare response
+        response = {
             "success": True,
             "filename": filename,
             "file_type": file_type,
-            "extracted_text": text,
-            "text_preview": text[:500] + "..." if len(text) > 500 else text,
-            "char_count": len(text)
-        })
+            "extracted_text": structured["full_text"],
+            "text_preview": structured["full_text"][:500] + "..." if len(structured["full_text"]) > 500 else structured["full_text"],
+            "char_count": len(structured["full_text"]),
+            
+            # Structured fields
+            "title": structured["title"],
+            "abstract": structured["abstract"],
+            "keywords": structured["keywords"],
+            "authors": structured["authors"],
+            "year": structured["year"],
+            
+            # Metadata
+            "has_structure": bool(structured["title"] or structured["abstract"] or structured["keywords"]),
+            "structure_quality": "high" if (structured["title"] and structured["abstract"] and structured["keywords"]) else 
+                                 "medium" if (structured["title"] or structured["abstract"]) else "low"
+        }
+        
+        return jsonify(response)
         
     except Exception as e:
         logger.error(f"Upload error: {str(e)}")
@@ -269,7 +297,8 @@ def health_check():
         "pytorch_model": "PyTorch SDG Classifier",
         "sdg_labels_count": len(SDG_LABELS),
         "api_version": "2.0.0",
-        "extractor_available": True
+        "extractor_available": True,
+        "structured_extraction": True
     })
 
 @app.route('/api/system/info', methods=['GET'])
@@ -288,9 +317,13 @@ def system_info():
         "features": {
             "text_analysis": True,
             "document_extraction": True,
+            "structured_extraction": True,
             "pytorch_classification": MODEL_LOADED,
             "rule_based_detection": RULES_LOADED,
-            "keyword_matching": RULES_LOADED
+            "keyword_matching": RULES_LOADED,
+            "title_detection": True,
+            "abstract_detection": True,
+            "keyword_detection": True
         }
     }
     
@@ -313,14 +346,12 @@ def rules_preview():
     sdg = request.args.get('sdg', type=int)
     
     if sdg and 1 <= sdg <= 17:
-        # Return specific SDG keywords
         keywords = rule_engine.get_sdg_keywords(sdg)
         return jsonify({
             "sdg": sdg,
             "keywords": keywords
         })
     else:
-        # Return summary of all rules
         return jsonify(rule_engine.get_rules_summary())
 
 # ===== ERROR HANDLERS =====
@@ -352,6 +383,7 @@ if __name__ == '__main__':
     print(f"Server running on: http://localhost:{port}")
     print(f"PyTorch Model: {'✓ LOADED' if MODEL_LOADED else '✗ NOT LOADED (using fallback)'}")
     print(f"Rule Engine: {'✓ LOADED' if RULES_LOADED else '✗ NOT LOADED'}")
+    print(f"Structured Extraction: ✓ ENABLED")
     print(f"Debug mode: {debug}")
     print("="*60)
     print("\nAvailable routes:")
@@ -363,5 +395,11 @@ if __name__ == '__main__':
     print(f"  • API Health: http://localhost:{port}/api/system/health")
     print(f"  • API Info: http://localhost:{port}/api/system/info")
     print("="*60)
+    print("\n✨ New Feature: Structured PDF Extraction")
+    print("   - Auto-detect Title")
+    print("   - Auto-detect Abstract")
+    print("   - Auto-detect Keywords")
+    print("   - Auto-detect Authors & Year")
+    print("="*60 + "\n")
     
     app.run(host='0.0.0.0', port=port, debug=debug)
