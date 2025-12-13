@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CERMAT - Research Classification System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/static/images/cermat.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/static/images/cermat.png" alt="CERMAT Logo" class="logo-img">
+                <span class="logo-text">CERMAT</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+                <a href="model-detection.html" class="nav-link"><i class="fas fa-brain"></i> Model Detection</a>
+                <a href="rule-detection.html" class="nav-link"><i class="fas fa-ruler"></i> Rule-Based Detection</a>
+                <a href="history.html" class="nav-link"><i class="fas fa-history"></i> History</a>
+                <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">CERMAT</h1>
+                <p class="hero-subtitle">Classification & Extraction of Research for Mapping Targets</p>
+                <p class="hero-description">
+                    An intelligent system designed to classify and extract research documents 
+                    for Sustainable Development Goals (SDGs) mapping using advanced machine learning 
+                    models and rule-based detection methods.
+                </p>
+                <div class="hero-buttons">
+                    <a href="model-detection.html" class="hero-btn unified-btn">
+                        <i class="fas fa-brain"></i> 
+                        <div class="btn-content">
+                            <span class="btn-main-text">Start with AI Model</span>
+                            <span class="btn-subtext">Advanced ML Classification</span>
+                        </div>
+                        <i class="fas fa-arrow-right btn-arrow"></i>
+                    </a>
+                    <a href="rule-detection.html" class="hero-btn unified-btn">
+                        <i class="fas fa-ruler"></i>
+                        <div class="btn-content">
+                            <span class="btn-main-text">Start with Rule-Based</span>
+                            <span class="btn-subtext">Keyword & Pattern Matching</span>
+                        </div>
+                        <i class="fas fa-arrow-right btn-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose CERMAT?</h2>
+            <p class="section-subtitle">Powerful tools for SDGs classification and research mapping</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Classification</h3>
+                    <p>Utilizes advanced machine learning models to accurately classify research documents according to SDGs</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <h3>Rule-Based Detection</h3>
+                    <p>Flexible keyword and pattern matching system for transparent and customizable SDGs identification</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Comprehensive History</h3>
+                    <p>Track and manage all your classification results with detailed analysis and comparison capabilities</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Visual Analytics</h3>
+                    <p>Interactive visualizations of classification results and SDGs distribution across your research corpus</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SDGs Overview Section -->
+    <section class="sdg-overview">
+        <div class="container">
+            <h2 class="section-title">Sustainable Development Goals</h2>
+            <p class="section-subtitle">CERMAT supports classification across all 17 UN SDGs</p>
+            
+            <div class="sdg-grid-container">
+                <div class="sdg-grid" id="sdg-preview">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="cta-section text-center">
+                <h3>Ready to analyze your research?</h3>
+                <p>Start classifying your documents with CERMAT today</p>
+                <div class="cta-buttons">
+                    <a href="model-detection.html" class="cta-btn unified-cta-btn">
+                        <i class="fas fa-rocket"></i>
+                        <span>Try AI Model</span>
+                    </a>
+                    <a href="rule-detection.html" class="cta-btn unified-cta-btn">
+                        <i class="fas fa-cogs"></i>
+                        <span>Try Rule-Based</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="/static/images/cermat.png" alt="CERMAT Logo" class="footer-logo-img">
+                    <span class="footer-logo-text">CERMAT</span>
+                </div>
+                <p>Classification & Extraction of Research for Mapping Targets</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="model-detection.html"><i class="fas fa-brain"></i> Model Detection</a></li>
+                    <li><a href="rule-detection.html"><i class="fas fa-ruler"></i> Rule-Based Detection</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i> History</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> contact@cermat.system</p>
+                <p><i class="fas fa-university"></i> Airlangga University</p>
+                <p><i class="fas fa-map-marker-alt"></i> Indonesia</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 CERMAT Research Classification System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SDG Detail Modal -->
+    <div id="sdg-detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="sdg-modal-title">SDG Details</h3>
+                <button class="modal-close" onclick="closeSDGModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="sdg-detail-content">
+                    <div class="sdg-detail-image">
+                        <img id="sdg-modal-image" src="" alt="SDG Image">
+                    </div>
+                    <div class="sdg-detail-info">
+                        <h4 id="sdg-modal-number">SDG 1</h4>
+                        <h3 id="sdg-modal-full-title">No Poverty</h3>
+                        <div class="sdg-description-box">
+                            <h5>Description</h5>
+                            <p id="sdg-modal-description">End poverty in all its forms everywhere.</p>
+                        </div>
+                        <div class="sdg-keywords-box">
+                            <h5>Common Keywords</h5>
+                            <div class="keyword-tags" id="sdg-modal-keywords">
+                                <!-- Keywords will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        // SDG Information with descriptions and keywords
+        const sdgDetails = {
+            1: {
+                title: "No Poverty",
+                description: "End poverty in all its forms everywhere. This goal aims to eradicate extreme poverty, reduce poverty by at least half, implement social protection systems, and ensure equal rights to economic resources.",
+                keywords: ["poverty", "poor", "inequality", "social protection", "basic income", "economic resources", "vulnerable", "deprived"],
+                color: "#E5243B"
+            },
+            2: {
+                title: "Zero Hunger",
+                description: "End hunger, achieve food security and improved nutrition, and promote sustainable agriculture. This goal focuses on ensuring access to safe, nutritious and sufficient food for all people.",
+                keywords: ["hunger", "food security", "nutrition", "agriculture", "malnutrition", "famine", "starvation", "food production"],
+                color: "#DDA63A"
+            },
+            3: {
+                title: "Good Health and Well-being",
+                description: "Ensure healthy lives and promote well-being for all at all ages. This goal addresses major health priorities including maternal and child health, communicable diseases, and mental health.",
+                keywords: ["health", "well-being", "disease", "healthcare", "vaccine", "medical", "hospital", "treatment"],
+                color: "#4C9F38"
+            },
+            4: {
+                title: "Quality Education",
+                description: "Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all. This goal emphasizes access to education, skills development, and teacher training.",
+                keywords: ["education", "school", "learning", "literacy", "teacher", "student", "university", "training"],
+                color: "#C5192D"
+            },
+            5: {
+                title: "Gender Equality",
+                description: "Achieve gender equality and empower all women and girls. This goal focuses on ending discrimination, violence, and harmful practices against women and girls.",
+                keywords: ["gender", "women", "equality", "empowerment", "feminism", "female", "women's", "girl"],
+                color: "#FF3A21"
+            },
+            6: {
+                title: "Clean Water and Sanitation",
+                description: "Ensure availability and sustainable management of water and sanitation for all. This goal addresses drinking water, sanitation, hygiene, and water quality.",
+                keywords: ["water", "sanitation", "hygiene", "clean water", "wastewater", "drinking water", "water supply", "water management"],
+                color: "#26BDE2"
+            },
+            7: {
+                title: "Affordable and Clean Energy",
+                description: "Ensure access to affordable, reliable, sustainable and modern energy for all. This goal promotes renewable energy, energy efficiency, and energy access.",
+                keywords: ["energy", "renewable", "solar", "wind", "electricity", "power", "energy efficiency", "energy access"],
+                color: "#FCC30B"
+            },
+            8: {
+                title: "Decent Work and Economic Growth",
+                description: "Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all.",
+                keywords: ["work", "employment", "economic", "job", "growth", "labor", "workforce", "economic development"],
+                color: "#A21942"
+            },
+            9: {
+                title: "Industry, Innovation and Infrastructure",
+                description: "Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation.",
+                keywords: ["industry", "innovation", "infrastructure", "technology", "research", "manufacturing", "digital", "industrial"],
+                color: "#FD6925"
+            },
+            10: {
+                title: "Reduced Inequality",
+                description: "Reduce inequality within and among countries. This goal focuses on social, economic and political inclusion.",
+                keywords: ["inequality", "discrimination", "inclusion", "equality", "social justice", "disparity", "gap", "marginalized"],
+                color: "#DD1367"
+            },
+            11: {
+                title: "Sustainable Cities and Communities",
+                description: "Make cities and human settlements inclusive, safe, resilient and sustainable.",
+                keywords: ["city", "urban", "community", "sustainable", "housing", "transport", "urban planning", "resilient"],
+                color: "#FD9D24"
+            },
+            12: {
+                title: "Responsible Consumption and Production",
+                description: "Ensure sustainable consumption and production patterns.",
+                keywords: ["consumption", "production", "waste", "recycle", "sustainable", "circular economy", "resource efficiency"],
+                color: "#BF8B2E"
+            },
+            13: {
+                title: "Climate Action",
+                description: "Take urgent action to combat climate change and its impacts.",
+                keywords: ["climate", "global warming", "carbon", "emission", "environment", "climate change", "greenhouse", "temperature"],
+                color: "#3F7E44"
+            },
+            14: {
+                title: "Life Below Water",
+                description: "Conserve and sustainably use the oceans, seas and marine resources for sustainable development.",
+                keywords: ["ocean", "marine", "sea", "fish", "coral", "marine life", "fisheries", "coastal"],
+                color: "#0A97D9"
+            },
+            15: {
+                title: "Life on Land",
+                description: "Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt biodiversity loss.",
+                keywords: ["forest", "biodiversity", "land", "ecosystem", "wildlife", "deforestation", "conservation", "terrestrial"],
+                color: "#56C02B"
+            },
+            16: {
+                title: "Peace, Justice and Strong Institutions",
+                description: "Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels.",
+                keywords: ["peace", "justice", "institution", "law", "corruption", "governance", "human rights", "security"],
+                color: "#00689D"
+            },
+            17: {
+                title: "Partnerships for the Goals",
+                description: "Strengthen the means of implementation and revitalize the Global Partnership for Sustainable Development.",
+                keywords: ["partnership", "collaboration", "cooperation", "global", "sustainable", "multilateral", "international"],
+                color: "#19486A"
+            }
+        };
+
+        // Load SDG preview on landing page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSDGPreview();
+            setupMobileMenu();
+            setupBackToTop();
+        });
+
+        function loadSDGPreview() {
+            const container = document.getElementById('sdg-preview');
+            if (!container) return;
+            
+            let html = '';
+            for (let i = 1; i <= 17; i++) {
+                const sdg = sdgDetails[i];
+                html += `
+                    <div class="sdg-card" data-sdg="${i}" onclick="showSDGDetail(${i})">
+                        <div class="sdg-square-image">
+                            <img src="/static/images/sdg${i}.png" alt="SDG ${i}" 
+                                 onerror="this.src='/static/images/cermat.png'">
+                        </div>
+                        <div class="sdg-number">SDG ${i}</div>
+                        <div class="sdg-title">${sdg.title}</div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function showSDGDetail(sdgNumber) {
+            const sdg = sdgDetails[sdgNumber];
+            const modal = document.getElementById('sdg-detail-modal');
+            const image = document.getElementById('sdg-modal-image');
+            const title = document.getElementById('sdg-modal-title');
+            const number = document.getElementById('sdg-modal-number');
+            const fullTitle = document.getElementById('sdg-modal-full-title');
+            const description = document.getElementById('sdg-modal-description');
+            const keywordsContainer = document.getElementById('sdg-modal-keywords');
+            
+            // Set modal content
+            title.textContent = `SDG ${sdgNumber}: ${sdg.title}`;
+            number.textContent = `SDG ${sdgNumber}`;
+            fullTitle.textContent = sdg.title;
+            description.textContent = sdg.description;
+            image.src = `/static/images/sdg${sdgNumber}.png`;
+            image.alt = `SDG ${sdgNumber}`;
+            
+            // Set keywords
+            let keywordsHtml = '';
+            sdg.keywords.forEach(keyword => {
+                keywordsHtml += `<span class="keyword-tag">${keyword}</span>`;
+            });
+            keywordsContainer.innerHTML = keywordsHtml;
+            
+            // Set modal header color
+            const modalHeader = modal.querySelector('.modal-header');
+            modalHeader.style.backgroundColor = sdg.color;
+            
+            // Show modal
+            modal.classList.add('active');
+        }
+
+        function closeSDGModal() {
+            const modal = document.getElementById('sdg-detail-modal');
+            modal.classList.remove('active');
+        }
+
+        function setupBackToTop() {
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
+</body>
+</html>

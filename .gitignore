@@ -1,0 +1,40 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Models cache
+.cache/
+transformers/
+.huggingface/
+
+# Data
+data/
+uploads/
+*.pdf
+*.docx
+*.doc
+*.txt
+*.pth
+*.bin
+
+# OS
+.DS_Store
+Thumbs.db

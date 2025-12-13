@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule-Based Detection - CERMAT</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/static/images/cermat.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/static/images/cermat.png" alt="CERMAT Logo" class="logo-img">
+                <span class="logo-text">CERMAT</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="model-detection.html" class="nav-link"><i class="fas fa-brain"></i> Model Detection</a>
+                <a href="rule-detection.html" class="nav-link active"><i class="fas fa-ruler"></i> Rule-Based Detection</a>
+                <a href="history.html" class="nav-link"><i class="fas fa-history"></i> History</a>
+                <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-ruler"></i> Rule-Based Detection</h1>
+            <p>Identify SDGs using keyword patterns and rule matching</p>
+            <div class="rules-info">
+                <i class="fas fa-lightbulb"></i> 
+                <span>Currently loaded: <strong id="rules-count">120</strong> rules across 17 SDGs</span>
+            </div>
+        </div>
+
+        <!-- Input Options -->
+        <div class="detection-options">
+            <div class="option-tabs">
+                <button class="option-tab active" data-option="upload">
+                    <i class="fas fa-upload"></i> Upload Document
+                </button>
+                <button class="option-tab" data-option="manual">
+                    <i class="fas fa-keyboard"></i> Manual Input
+                </button>
+            </div>
+
+            <!-- Upload Option -->
+            <div class="option-content active" id="upload-option">
+                <div class="upload-section">
+                    <div class="upload-area" onclick="document.getElementById('file-input-rule').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="upload-content">
+                            <h3>Upload Research Document</h3>
+                            <p>Drag & drop or click to browse files</p>
+                            <p class="upload-formats">Supported: PDF, DOCX, DOC, TXT</p>
+                            <p class="upload-limit">Max size: 16MB</p>
+                        </div>
+                        <input type="file" id="file-input-rule" hidden accept=".pdf,.docx,.doc,.txt">
+                    </div>
+                    
+                    <div class="file-info" id="file-info-rule">
+                        <div class="file-info-empty">
+                            <i class="fas fa-file-alt"></i>
+                            <p>No file selected</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Input Option -->
+            <div class="option-content" id="manual-option">
+                <div class="manual-input-section">
+                    <div class="input-group">
+                        <label for="title-input-rule"><i class="fas fa-heading"></i> Research Title</label>
+                        <input type="text" id="title-input-rule" placeholder="Enter research paper title...">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="abstract-input-rule"><i class="fas fa-file-alt"></i> Abstract</label>
+                        <textarea id="abstract-input-rule" rows="6" placeholder="Enter the abstract of your research..."></textarea>
+                        <div class="char-count">
+                            <span id="abstract-char-count-rule">0</span> characters
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="keywords-input-rule"><i class="fas fa-tags"></i> Keywords</label>
+                        <textarea id="keywords-input-rule" rows="3" placeholder="Enter keywords (comma-separated)..."></textarea>
+                        <div class="keywords-hint">
+                            <i class="fas fa-lightbulb"></i> Enter specific terms for better rule matching
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rule Configuration -->
+        <div class="rule-configuration">
+            <h3><i class="fas fa-sliders-h"></i> Rule Configuration</h3>
+            <div class="config-options">
+                <div class="config-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="exact-match" checked>
+                        <span>Exact keyword matching</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="synonym-match" checked>
+                        <span>Include synonyms</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="context-match">
+                        <span>Context-aware matching</span>
+                    </label>
+                </div>
+                
+                <div class="config-group">
+                    <label>Match Threshold</label>
+                    <div class="slider-container">
+                        <input type="range" id="threshold-slider" min="1" max="10" value="5">
+                        <span id="threshold-value">5 keywords</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analyze Button -->
+        <div class="analyze-section">
+            <button id="analyze-rule-btn" class="primary-btn analyze-btn" onclick="analyzeWithRules()">
+                <i class="fas fa-search"></i>
+                <span>Analyze with Rules</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <p class="analyze-note">
+                <i class="fas fa-info-circle"></i> Rule-based detection provides transparent matching with ground truth
+            </p>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="results-section-rule">
+            <div class="section-header">
+                <h2><i class="fas fa-check-circle"></i> Rule Matching Results</h2>
+                <div class="section-actions">
+                    <button class="icon-btn" onclick="saveRuleResults()" id="save-rule-btn">
+                        <i class="fas fa-save"></i> Save to History
+                    </button>
+                    <button class="icon-btn" onclick="exportRuleResults()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="icon-btn" onclick="clearRuleResults()">
+                        <i class="fas fa-trash-alt"></i> Clear
+                    </button>
+                </div>
+            </div>
+            
+            <div id="results-container-rule" class="results-container">
+                <div class="empty-state">
+                    <i class="fas fa-ruler-combined"></i>
+                    <p>Upload a document or enter details above to see rule matching results</p>
+                    <p class="empty-subtext">Rules will show exact keyword matches and triggered patterns</p>
+                </div>
+            </div>
+            
+            <div id="detailed-rule-results" class="detailed-results" style="display: none;">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Rules Preview -->
+        <div class="rules-preview">
+            <h3><i class="fas fa-list-ul"></i> Available Rules by SDG</h3>
+            <div class="rules-grid" id="rules-preview-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Same as index.html -->
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setupRuleDetection();
+            loadRulesPreview();
+            setupMobileMenu();
+        });
+    </script>
+</body>
+</html>

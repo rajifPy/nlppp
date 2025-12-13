@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - CERMAT</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/static/images/cermat.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/static/images/cermat.png" alt="CERMAT Logo" class="logo-img">
+                <span class="logo-text">CERMAT</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="model-detection.html" class="nav-link"><i class="fas fa-brain"></i> Model Detection</a>
+                <a href="rule-detection.html" class="nav-link"><i class="fas fa-ruler"></i> Rule-Based Detection</a>
+                <a href="history.html" class="nav-link active"><i class="fas fa-history"></i> History</a>
+                <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-history"></i> Classification History</h1>
+            <p>View and manage all your previous SDGs classification results</p>
+            <div class="history-stats">
+                <div class="stat-card-small">
+                    <i class="fas fa-file-alt"></i>
+                    <div>
+                        <h3 id="total-classifications">0</h3>
+                        <p>Total Classifications</p>
+                    </div>
+                </div>
+                <div class="stat-card-small">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <h3 id="model-classifications">0</h3>
+                        <p>Model-Based</p>
+                    </div>
+                </div>
+                <div class="stat-card-small">
+                    <i class="fas fa-ruler"></i>
+                    <div>
+                        <h3 id="rule-classifications">0</h3>
+                        <p>Rule-Based</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="history-filters">
+            <div class="filter-group">
+                <label><i class="fas fa-filter"></i> Filter by:</label>
+                <select id="filter-method" class="filter-select">
+                    <option value="all">All Methods</option>
+                    <option value="model">Model Detection</option>
+                    <option value="rule">Rule-Based</option>
+                </select>
+                
+                <select id="filter-sdg" class="filter-select">
+                    <option value="all">All SDGs</option>
+                    <option value="1">SDG 1: No Poverty</option>
+                    <option value="2">SDG 2: Zero Hunger</option>
+                    <!-- More SDG options -->
+                </select>
+                
+                <select id="filter-date" class="filter-select">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="history-search" placeholder="Search by title or keyword...">
+                <button class="icon-btn" onclick="clearFilters()">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="history-table-container">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="select-all">
+                        </th>
+                        <th>Title</th>
+                        <th>Method</th>
+                        <th>SDGs Detected</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table-body">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="table-empty" id="table-empty">
+                <i class="fas fa-inbox"></i>
+                <h3>No Classification History</h3>
+                <p>Start classifying documents to see your history here</p>
+                <div class="empty-actions">
+                    <a href="model-detection.html" class="primary-btn">
+                        <i class="fas fa-brain"></i> Try Model Detection
+                    </a>
+                    <a href="rule-detection.html" class="secondary-btn">
+                        <i class="fas fa-ruler"></i> Try Rule-Based
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="bulk-actions" id="bulk-actions" style="display: none;">
+            <div class="bulk-info">
+                <span id="selected-count">0</span> items selected
+            </div>
+            <div class="bulk-buttons">
+                <button class="icon-btn" onclick="deleteSelected()">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+                <button class="icon-btn" onclick="exportSelected()">
+                    <i class="fas fa-download"></i> Export Selected
+                </button>
+                <button class="icon-btn" onclick="compareSelected()">
+                    <i class="fas fa-chart-bar"></i> Compare
+                </button>
+            </div>
+        </div>
+
+        <!-- Detail View Modal -->
+        <div class="modal" id="detail-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="detail-title">Classification Details</h3>
+                    <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+                </div>
+                <div class="modal-body" id="detail-content">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Same as index.html -->
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHistory();
+            setupMobileMenu();
+            setupHistoryFilters();
+        });
+    </script>
+</body>
+</html>
